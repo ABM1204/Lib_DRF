@@ -1,3 +1,25 @@
 from django.db import models
 
-# Create your models here.
+from users.models import User
+
+
+class Author(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    biography = models.TextField()
+    date_of_birth = models.DateField(blank=False, null=False)
+    date_of_death = models.DateField(blank=True, null=True)
+
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    summary = models.TextField()
+    isbn = models.CharField('ISBN', max_length=13, unique=True)
+    authors = models.ManyToManyField(Author, related_name='books')
+    publication_date = models.DateField()
+    genre = models.CharField(max_length=100)
+
+
+class FavoriteBook(models.Model):
+    book = models.ForeignKey(Book, related_name='favorites', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='favorites', on_delete=models.CASCADE)
