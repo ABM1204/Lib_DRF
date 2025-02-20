@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from drf_spectacular.utils import extend_schema, OpenApiParameter
@@ -10,6 +10,7 @@ from .serializers import AuthorSerializer, BookSerializer, FavoriteBookSerialize
 class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class BookViewSet(viewsets.ModelViewSet):
@@ -19,6 +20,7 @@ class BookViewSet(viewsets.ModelViewSet):
     filterset_fields = ['authors', 'genre', 'publication_date']
     search_fields = ['title', 'authors__last_name']
     ordering_fields = ['publication_date', 'authors__last_name', 'genre']
+    permission_classes = [permissions.IsAuthenticated]
 
     @extend_schema(
         parameters=[
@@ -36,4 +38,5 @@ class BookViewSet(viewsets.ModelViewSet):
 class FavoriteBookViewSet(viewsets.ModelViewSet):
     queryset = FavoriteBook.objects.all()
     serializer_class = FavoriteBookSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
