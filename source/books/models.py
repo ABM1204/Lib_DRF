@@ -30,5 +30,8 @@ class FavoriteBook(models.Model):
     book = models.ForeignKey(Book, related_name='favorites', on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='favorites', on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ('user', 'book')
+
     def __str__(self):
         return f'{self.book}'
