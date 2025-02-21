@@ -48,14 +48,12 @@ class FavoriteBookViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def add(self, request):
         book = request.data.get('book')
-
         try:
             book = Book.objects.get(id=book)
         except Book.DoesNotExist:
             return Response({"detail": "Book not found."}, status=status.HTTP_404_NOT_FOUND)
 
         favorite_book, created = FavoriteBook.objects.get_or_create(user=request.user, book=book)
-
         if created:
             return Response({"detail": "Book added to favorites."}, status=status.HTTP_201_CREATED)
         else:
@@ -63,4 +61,9 @@ class FavoriteBookViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+    @action(detail=False, methods=['post'], url_path='clear')
+    def clear_favorites(self, request):
+        FavoriteBook.objects.filter(user=request.user).delete()
+        return Response({"message": "Favorites cleared."}, status=status.HTTP_204_NO_CONTENT)
 
