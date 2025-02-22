@@ -8,7 +8,7 @@ from users.views import UserCreateView, UserLogoutView
 router = DefaultRouter()
 router.register('authors', AuthorViewSet)
 router.register('books', BookViewSet)
-router.register('favoritebooks', FavoriteBookViewSet)
+router.register('favoritebooks', FavoriteBookViewSet, basename='favorite_books')
 
 
 urlpatterns = [

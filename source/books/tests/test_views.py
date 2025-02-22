@@ -3,9 +3,8 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 from datetime import date
 from rest_framework_simplejwt.tokens import AccessToken
-from django.db.utils import IntegrityError
 
-from .models import Author, Book, FavoriteBook
+from books.models import Author, Book, FavoriteBook
 from rest_framework import status
 
 User = get_user_model()
@@ -240,10 +239,8 @@ class BookViewSetTest(TestCase):
 #         response = self.client.post('/favorite_books/add/', {'book': self.book.id})
 #         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 #         self.assertEqual(response.data['detail'], "Book added to favorites.")
-#
 #     def test_add_book_to_favorites_already_added(self):
-#         response = self.client.post('/favorite_books/add/', {'book': self.book.id})
-#         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+#         self.client.post('/favorite_books/add/', {'book': self.book.id})
 #         response = self.client.post('/favorite_books/add/', {'book': self.book.id})
 #         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 #         self.assertEqual(response.data['detail'], "Book is already in your favorites.")
@@ -251,7 +248,19 @@ class BookViewSetTest(TestCase):
 #     def test_add_nonexistent_book(self):
 #         response = self.client.post('/favorite_books/add/', {'book': 99999})
 #         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-#         self.assertEqual(response, "Book not found.")
+#         self.assertEqual(response.data['detail'], "Book not found.")
+#
+#     def test_clear_favorites(self):
+#         self.client.post('/favorite_books/add/', {'book': self.book.id})
+#         response = self.client.get('/favorite_books/')
+#         self.assertEqual(len(response.data), 1)
+#         response = self.client.post('/favorite_books/clear/', {})
+#         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+#         response = self.client.get('/favorite_books/')
+#         self.assertEqual(len(response.data), 0)
+
+
+
 
 
 
