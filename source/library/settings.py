@@ -157,3 +157,6 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': timedelta(hours=24),
     },
 }
+
+#CELERY_TASK_ALWAYS_EAGER = True
+#CELERY_TASK_EAGER_PROPAGATES = True
