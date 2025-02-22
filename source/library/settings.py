@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework_simplejwt',
     'django_celery_beat',
+    'drf_spectacular',
     'users',
     'books',
 ]
@@ -137,6 +138,13 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Books API',
+    'DESCRIPTION': 'API for managing books, authors, and favorite books.',
+    'VERSION': '1.0.0',
 }
 
 SIMPLE_JWT = {
